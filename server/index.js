@@ -15,7 +15,7 @@ const express = require("express");
 const app = express();
 
 //Define the Port your will be running your server on.
-const PORT = 5000;
+const PORT = 4000;
 
 //Controllers
 const adminController = require("./controllers/adminController");
@@ -60,4 +60,34 @@ app.use(cors());
 
 setTimeout(() => {
   // All our endpoints
+
+  //Read the user's session.
+  app.get("/api/user-data", userController.readUserData);
+
+  app.post("/api/user-data/cart", userController.addToCart);
+
+  app.delete("/api/user-data/cart/:id", userController.removeFromCart);
+
+  app.post("/api/login", userController.login);
+
+  app.post("/api/logout", userController.logout);
+
+  // Products endpoints
+  app.get("/api/products", productsController.readAllProducts);
+
+  app.get("/api/products/:id", productsController.readProduct);
+
+  // Admin endpoints
+  app.get("/api/users", adminController.getAdminUsers);
+
+  app.post("/api/products", adminController.createProduct);
+
+  app.put("/api/products/:id", adminController.updateProduct);
+
+  app.delete("/api/products/:id", adminController.deleteProduct);
 }, 200);
+
+// Then listen on PORT
+app.listen(PORT, () => {
+  console.log("listening on port:", PORT);
+});
